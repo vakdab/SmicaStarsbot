@@ -1,10 +1,10 @@
+import { asset } from "@/lib/paths";
 import Header from "@/components/Header";
 import LikedContent from "./components/LikedContent";
 
 import Image from "next/image";
 import React from "react";
 
-export const revalidate = 0;
 
 const Liked = () => {
   return (
@@ -15,7 +15,7 @@ const Liked = () => {
             <div className="relative h-32 w-32 lg:h-44 lg:w-44">
               <Image
                 fill
-                src="/images/liked.png"
+                src={asset("/images/liked.png")}
                 alt="Liked Playlist"
                 className="object-cover"
               />

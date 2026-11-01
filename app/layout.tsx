@@ -17,7 +17,6 @@ export const metadata = {
   description: "SmicaStars — music player interface built with Next.js & Tailwind."
 };
 
-export const revalidate = 0;
 
 export default function RootLayout({
   children

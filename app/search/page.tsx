@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import SearchInput from "@/components/SearchInput";
 import SearchContent from "./components/SearchContent";
 
-export const revalidate = 0;
 
 const Search = () => {
   return (

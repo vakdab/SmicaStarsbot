@@ -10,6 +10,31 @@
 них — локальные данные и локальное состояние, поэтому проект запускается без
 ключей и бэкенда.
 
+## Деплой на GitHub Pages
+
+Сайт живёт тут: **https://vakdab.github.io/SmicaStarsbot/**
+
+Проект собирается в статику (`output: "export"` в `next.config.js`), поэтому
+GitHub Pages хостит его целиком: никакого сервера не нужно. При каждом пуше в
+`main` workflow [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml)
+запускает `npm ci && npm run build` и публикует содержимое `out/` в ветку
+`gh-pages`, а оттуда его раздаёт Pages.
+
+Локально проверить боевую сборку под подпапкой репозитория:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/SmicaStarsbot npx next build
+mkdir -p site && cp -r out site/SmicaStarsbot
+cd site && python3 -m http.server 8080   # http://localhost:8080/SmicaStarsbot/
+```
+
+`NEXT_PUBLIC_BASE_PATH` обязателен: это префикс подпапки Pages. Он подставляется
+к ссылкам (`next/link`) и картинкам (`next/image`) автоматически, а для аудио и
+прочих файлов вручную через `asset()` из `lib/paths.ts`. Если позже переедете на
+свой домен в корень, просто уберите переменную из workflow.
+
+Ветка `main` остаётся исходником: не коммитьте туда `out/`.
+
 ## Запуск
 
 ```bash

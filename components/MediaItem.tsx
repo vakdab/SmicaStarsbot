@@ -4,6 +4,7 @@ import usePlayer from "@/hooks/usePlayer";
 
 import { Song } from "@/types";
 
+import { asset } from "@/lib/paths";
 import React from "react";
 import Image from "next/image";
 
@@ -29,7 +30,7 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
       <div className="relative rounded-md min-h-[48px] min-w-[48px] overflow-hidden">
         <Image
           fill
-          src={data.image_path || "/images/liked.png"}
+          src={data.image_path || asset("/images/liked.png")}
           alt="Media Item Image"
           className="object-cover"
         />

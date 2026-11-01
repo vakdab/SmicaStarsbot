@@ -1,5 +1,6 @@
 "use client";
 
+import { asset } from "@/lib/paths";
 import React from "react";
 import Image from "next/image";
 
@@ -20,7 +21,7 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
       <div className="relative aspect-square w-full h-full rounded-md overflow-hidden">
         <Image
           className="object-cover"
-          src={data.image_path || "/images/liked.png"}
+          src={data.image_path || asset("/images/liked.png")}
           fill
           alt="Album Artwork"
         />
