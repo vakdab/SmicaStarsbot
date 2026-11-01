@@ -15,12 +15,20 @@
 Сайт живёт тут: **https://vakdab.github.io/SmicaStarsbot/**
 
 Проект собирается в статику (`output: "export"` в `next.config.js`), поэтому
-GitHub Pages хостит его целиком: никакого сервера не нужно. При каждом пуше в
-`main` workflow [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml)
-запускает `npm ci && npm run build` и публикует содержимое `out/` в ветку
-`gh-pages`, а оттуда его раздаёт Pages.
+Pages хостит его целиком: сервер не нужен. Ветка `main` — исходник,
+собранный сайт лежит в ветке `gh-pages`, оттуда его и раздаёт Pages.
 
-Локально проверить боевую сборку под подпапкой репозитория:
+Пересобрать и выложить одной командой:
+
+```bash
+./deploy-gh-pages.sh
+```
+
+Скрипт делает `NEXT_PUBLIC_BASE_PATH=/SmicaStarsbot npm run build`, копирует
+`out/` во временную папку `.gh-pages-build`, коммитит и пушит её в `gh-pages`
+force-пушем (история сборок там не нужна).
+
+Локально проверить боевую сборку под подпапкой:
 
 ```bash
 NEXT_PUBLIC_BASE_PATH=/SmicaStarsbot npx next build
@@ -28,12 +36,14 @@ mkdir -p site && cp -r out site/SmicaStarsbot
 cd site && python3 -m http.server 8080   # http://localhost:8080/SmicaStarsbot/
 ```
 
-`NEXT_PUBLIC_BASE_PATH` обязателен: это префикс подпапки Pages. Он подставляется
-к ссылкам (`next/link`) и картинкам (`next/image`) автоматически, а для аудио и
-прочих файлов вручную через `asset()` из `lib/paths.ts`. Если позже переедете на
-свой домен в корень, просто уберите переменную из workflow.
+`NEXT_PUBLIC_BASE_PATH` — префикс подпапки Pages. Ссылки (`next/link`) и картинки
+(`next/image`) получают его автоматически, а аудио и остальные файлы — через
+`asset()` из `lib/paths.ts`. Если переедете на домен в корне, уберите переменную
+из скрипта.
 
-Ветка `main` остаётся исходником: не коммитьте туда `out/`.
+Автодеплой через GitHub Actions пока не включён: у токена нет scope `workflow`,
+поэтому `.github/workflows/*` не пушится. Добавьте scope — и скрипт можно
+заменить на workflow.
 
 ## Запуск
 
